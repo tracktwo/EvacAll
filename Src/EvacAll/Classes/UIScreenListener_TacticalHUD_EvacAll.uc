@@ -45,7 +45,7 @@ event OnInit(UIScreen Screen)
 			NewGameState.AddStateObject(AbilityState);
 			NewUnitState.Abilities.AddItem(AbilityState.GetReference());
 			NewGameState.AddStateObject(NewUnitState);
-
+			
 			// Submit the new state
 			`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
 		}
