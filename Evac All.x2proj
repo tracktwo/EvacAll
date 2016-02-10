@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Guid>0e5d8771-8f11-4a15-a4cd-f7cd2516d50f</Guid>
+    <Name>Evac All</Name>
+    <Description>Adds an ability button to evacuate all soldiers currently in the evac zone with one click.</Description>
+    <SteamPublishID>0</SteamPublishID>
+    <AssemblyName>Evac All</AssemblyName>
+    <RootNamespace>Evac All</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Content\" />
+    <Folder Include="Localization\" />
+    <Folder Include="Src\" />
+    <Folder Include="Src\EvacAll\" />
+    <Folder Include="Src\EvacAll\Classes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\XComEvacAll.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Content\UI_EvacAll.upk">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ReadMe.txt" />
+    <Content Include="ModPreview.jpg" />
+    <Content Include="Config\XComEditor.ini" />
+    <Content Include="Config\XComEngine.ini" />
+    <Content Include="Config\XComGame.ini" />
+    <Content Include="Localization\XComGame.int" />
+    <Content Include="Src\EvacAll\Classes\UIScreenListener_TacticalHUD_EvacAll.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\EvacAll\Classes\X2Ability_EvacAll.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\EvacAll\Classes\X2Action_DelayedEvac.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\EvacAll\Classes\X2DownloadableContentInfo_EvacAll.uc" />
+  </ItemGroup>
+  <Import Project="$(MSBuildLocalExtensionPath)\XCOM2.targets" />
+</Project>
