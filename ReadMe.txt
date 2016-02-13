@@ -16,6 +16,16 @@ doesn't add any gameplay change, it's purely an interface change.
 Evac animation style is configurable through an XComEvacAll.ini config
 file.
 
+This mod is compatible with existing saves, but will not take effect
+until the next time you begin a mission after installing the mod. Loading
+a saved game in-mission from before the installation will work, but no
+Evac All ability will appear until the next mission.
+
+Like all mods currently, uninstalling this mod will cause the game to
+refuse to load saved games that were created while this mod was installed.
+This can be worked around by the "Ignore Missing DLC" mod, but when uninstalling
+I recommend uninstalling while your saves are in the geoscape, not in-mission.
+
 == Installation ==
 
 For manual installation, unzip the installation package into your XCOM2\XComGame\Mods folder 
@@ -37,3 +47,20 @@ eOneByOne - Units will evac one by one, with each soldier waiting for the previo
 soldier to complete their animation.
 
 eNoAnimations - All units will instantly evac and disappear without playing any animations.
+
+== Contributors ==
+
+Thanks to the volunteers contributing translations for this mod:
+
+esurnir - French
+Jack Kwan - Traditional Chinese
+Albeoris - Russian
+Josemsar - Spanish
+Hamachi - Korean
+almasmario - Italian
+acosys, Marck - German
+Kubak1000 - Polish
+nobita - Japanese
+
+If your language has support in the base game but does not appear in this list and you would
+like to contribute a translation, please see the Translations discussion on the workshop page.
