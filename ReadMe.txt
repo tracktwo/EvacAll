@@ -61,6 +61,4 @@ almasmario - Italian
 acosys, Marck - German
 Kubak1000 - Polish
 nobita - Japanese
-
-If your language has support in the base game but does not appear in this list and you would
-like to contribute a translation, please see the Translations discussion on the workshop page.
+dick182 - Simplified Chinese

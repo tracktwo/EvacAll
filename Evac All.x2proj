@@ -15,14 +15,15 @@
     <Folder Include="Src\" />
     <Folder Include="Src\EvacAll\" />
     <Folder Include="Src\EvacAll\Classes\" />
-    <Folder Include="Src\XComGame\" />
-    <Folder Include="Src\XComGame\Classes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\XComEvacAll.ini">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Content\UI_EvacAll.upk">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Localization\XComGame.chn">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Localization\XComGame.cht">
@@ -68,7 +69,6 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\EvacAll\Classes\X2DownloadableContentInfo_EvacAll.uc" />
-    <Content Include="Src\XComGame\Classes\*.uc" />
   </ItemGroup>
   <Import Project="$(MSBuildLocalExtensionPath)\XCOM2.targets" />
 </Project>
