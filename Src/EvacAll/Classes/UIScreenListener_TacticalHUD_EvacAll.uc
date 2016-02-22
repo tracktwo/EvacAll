@@ -9,21 +9,12 @@ event OnInit(UIScreen Screen)
 	local X2AbilityTemplateManager AbilityTemplateManager;
 	local X2AbilityTemplate AbilityTemplate;
 	local XComGameState_HeadquartersXCom XComHQ;
-	local StateObjectReference RewardUnitRef;
-	local XComGameState_MissionSite Mission;
-	local XComGameState_BattleData BattleData;
 	local Object ThisObj;
-	local StaticMesh WaypointMesh;
-	local Texture2dArray StatusTextureArray;
-	local Texture2D LootTexture;
 	local XComGameState_NoEvacTiles NoEvacTilesState;
 	local int i;
 	
 	XComHQ = class'UIUtilities_Strategy'.static.GetXComHQ();
-	BattleData = XComGameState_BattleData(`XCOMHISTORY.GetSingleGameStateObjectForClass(class'XComGameState_BattleData'));
-	Mission = XComGameState_MissionSite(`XCOMHISTORY.GetGameStateForObjectID(BattleData.m_iMissionID));
-	//Mission = XComGameState_MissionSite(`XCOMHISTORY.GetGameStateForObjectID(XComHQ.MissionRef.ObjectID));
-
+	
 	// Locate the evac all ability template
 	AbilityTemplateManager = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
 	AbilityTemplate = AbilityTemplateManager.FindAbilityTemplate('EvacAll');
@@ -32,16 +23,6 @@ event OnInit(UIScreen Screen)
 	for (i = 0; i < XComHQ.Squad.Length; ++i) 
 	{
 		EnsureAbilityOnUnit(XComHQ.Squad[i], AbilityTemplate);
-	}
-
-	if (Mission != none)
-	{
-		// If the mission has a reward VIP, add it to them too
-		RewardUnitRef = Mission.GetRewardVIP();
-		if (RewardUnitRef.ObjectID > 0)
-		{
-			EnsureAbilityOnUnit(RewardUnitRef, AbilityTemplate);
-		}
 	}
 
 	// Register an event handler for the 'EvacZonePlaced' event so we can update the tile data to show the
@@ -98,8 +79,6 @@ function EnsureAbilityOnUnit(StateObjectReference UnitStateRef, X2AbilityTemplat
 
 function EventListenerReturn OnEvacZonePlaced(Object EventData, Object EventSource, XComGameState GameState, Name InEventID)
 {
-	local XComGameStateHistory History;
-	local XComGameStateContext_ChangeContainer ChangeContainer;
 	local XComGameState_EvacZone EvacState;
 	local XComGameState NewGameState;
 	local TTile Min, Max, TestTile;
@@ -107,20 +86,8 @@ function EventListenerReturn OnEvacZonePlaced(Object EventData, Object EventSour
 	local int x, y;
 	local int IsOnFloor;
 	local XComWorldData WorldData;
-	local TilePosPair OutPair;
-	local X2Actor_NoEvacTile NoEvacMeshActor;
-	local vector MeshTranslation;
-	local SimpleShapeManager ShapeManager;
-	local XComGameState_NoEvacTiles NoEvacTilesState;
-	local VisualizationTrack Track;
 	
-	
-	//local XComGameState NewGameState;
-	`Log("*** OnEvacZonePlaced");
-
 	EvacState = XComGameState_EvacZone(EventSource);
-	`Log("*** Center tile is " $ EvacState.CenterLocation.X $ ", " $ EvacState.CenterLocation.Y);
-
 	WorldData = `XWORLD;
 	class'XComGameState_EvacZone'.static.GetEvacMinMax(EvacState.CenterLocation, Min, Max);
 
@@ -131,7 +98,11 @@ function EventListenerReturn OnEvacZonePlaced(Object EventData, Object EventSour
 		for (y = Min.Y; y <= Max.Y; ++y)
 		{
 			TestTile.Y = y;
-			if (!class'X2TargetingMethod_EvacZone'.static.ValidateEvacTile(TestTile, IsOnFloor))
+
+			// If this tile is not a valid evac tile, add it to our list. But don't bother with tiles
+			// that are not valid destinations.
+			if (!class'X2TargetingMethod_EvacZone'.static.ValidateEvacTile(TestTile, IsOnFloor) && 
+				WorldData.CanUnitsEnterTile(TestTile))
 			{
 				`Log("Invalid tile at " $ x $ ", " $ y);
 				NoEvacTiles.AddItem(TestTile);
@@ -141,39 +112,18 @@ function EventListenerReturn OnEvacZonePlaced(Object EventData, Object EventSour
 
 	if (NoEvacTiles.Length > 0) 
 	{
-		History = `XCOMHISTORY;
-		NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Set NoEvac Hazards");
+		// Create a new state for our no-evac tile placement.
+		NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Set NoEvac Tiles");	
 
-		/*
-				//Defer to the game state that triggered us for timing.
-		if (GameState.GetContext().DesiredVisualizationBlockIndex > -1)
-		{
-			ChangeContainer.SetDesiredVisualizationBlockIndex(GameState.GetContext().DesiredVisualizationBlockIndex);
-		}
-		else
-		{
-			ChangeContainer.SetDesiredVisualizationBlockIndex(GameState.HistoryIndex);
-		}*/
-			
-		
-		//NewGameState = History.CreateNewGameState(true, ChangeContainer);
-		NoEvacTilesState = class'XComGameState_NoEvacTiles'.static.CreateNoEvacTilesState(NewGameState, NoEvacTiles);
-		
+		// Create the state for our bad tiles and add it to NewGameState.
+		class'XComGameState_NoEvacTiles'.static.CreateNoEvacTilesState(NewGameState, NoEvacTiles);
+
 		// Create and sync the visualizer to create the blocked tile actors
 		XComGameStateContext_ChangeContainer(NewGameState.GetContext()).BuildVisualizationFn = BuildVisualizationForNoEvacTiles;
 		
 		`TACTICALRULES.SubmitGameState(NewGameState);
-
-
 	}
-	/*
-	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("UpdateNoEvacTiles");
-		EffectState = XComGameState_Effect(NewGameState.CreateStateObject(Class, ObjectID));
-		NewGameState.AddStateObject(EffectState);
-		++EffectState.AttacksReceived;
 
-	SubmitNewGameState(NewGameState);
-	*/
 	return ELR_NoInterrupt;
 }
 

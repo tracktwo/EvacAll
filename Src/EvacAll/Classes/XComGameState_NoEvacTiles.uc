@@ -1,3 +1,10 @@
+/*
+ * XComGameState_NoEvacTiles
+ *
+ * A game state to record a set of blocked tiles in an evac zone. This is used to ensure the blocked tiles get
+ * re-visualized on game load. However, because we cannot currently implement X2VisualizedInterface, we can't
+ * use the state system to actually sync visualization and need to do it manually in the UI listener.
+ */
 class XComGameState_NoEvacTiles extends XComGameState_BaseObject;
 
 var array<TTile> NoEvacTiles;

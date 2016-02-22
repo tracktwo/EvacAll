@@ -1,3 +1,7 @@
+/*
+ * X2Actor_NoEvacTile: A static mesh to represent a single blocked tile in an evac zone.
+ */
+
 class X2Actor_NoEvacTile extends StaticMeshActor;
 
 var protected string MeshPath;
@@ -24,11 +28,12 @@ DefaultProperties
 		BlockNonZeroExtent=FALSE
 		BlockRigidBody=FALSE
 		HiddenGame=FALSE
+		HideDuringCinematicView=true
 	End Object
 
 	bStatic=FALSE
 	bWorldGeometry=FALSE
 	bMovable=TRUE
 
-	MeshPath="UI_3D.Tile.ObjectiveTile_Enter"
+	MeshPath="UI_EvacAll.NoEvacTile"
 }

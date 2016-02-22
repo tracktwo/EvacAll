@@ -1,4 +1,9 @@
-
+/*
+ * X2Actor_NoEvacTileGroup
+ *
+ * Actor to represent a group of no-evac tiles in an evac zone. Owns all the static mesh actors
+ * that are displayed on the map.
+ */
 class X2Actor_NoEvacTileGroup extends Actor 
 	placeable;
 
@@ -28,7 +33,7 @@ function InitTiles(XComGameState_NoEvacTiles NoEvacTilesState)
 		{
 			NoEvacTile = `BATTLE.spawn(class'X2Actor_NoEvacTile');
 			TileLocation = WorldData.GetPositionFromTileCoordinates(Tile);
-			TileLocation.Z = WorldData.GetFloorZForPosition(TileLocation) + 7;
+			TileLocation.Z = WorldData.GetFloorZForPosition(TileLocation) + 4;
 			NoEvacTile.SetLocation(TileLocation);
 			NoEvacTile.SetHidden(false);
 			NoEvacTiles.AddItem(NoEvacTile);
@@ -55,7 +60,6 @@ function DestroyTileActors()
 // Evac zone has been destroyed! Destroy all our blocked tile actors and return.
 function EventListenerReturn OnEvacZoneDestroyed(Object EventData, Object EventSource, XComGameState GameState, Name InEventID)
 {
-	
 	local Object ThisObj;
 
 	DestroyTileActors();

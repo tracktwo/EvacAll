@@ -84,9 +84,6 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\EvacAll\Classes\X2DownloadableContentInfo_EvacAll.uc" />
-    <Content Include="Src\EvacAll\Classes\X2Effect_ApplyNoEvacToWorld.uc">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Src\EvacAll\Classes\XComGameState_NoEvacTiles.uc">
       <SubType>Content</SubType>
     </Content>

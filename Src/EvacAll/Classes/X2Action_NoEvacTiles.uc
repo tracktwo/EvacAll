@@ -1,4 +1,6 @@
 
+/* X2Action_NoEvacTiles: An "action" for visualizing the blocked tiles in an evac zone. */
+
 class X2Action_NoEvacTiles extends X2Action;
 
 var XComGameState_NoEvacTiles NoEvacTilesState;
