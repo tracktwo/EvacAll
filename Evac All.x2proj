@@ -7,6 +7,7 @@
     <SteamPublishID>0</SteamPublishID>
     <AssemblyName>Evac All</AssemblyName>
     <RootNamespace>Evac All</RootNamespace>
+    <ProjectGuid>{806f5d6d-8c5f-4e65-9c06-b24aba689e2d}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -21,9 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\XComEvacAll.ini">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Config\XComGameCore.ini">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Content\UI_EvacAll.upk">
