@@ -1,6 +1,9 @@
-class UIScreenListener_TacticalHUD_EvacAll extends UIScreenListener;
+class UIScreenListener_TacticalHUD_EvacAll extends UIScreenListener
+	config(EvacAll);
 
 var array<X2Actor_NoEvacTile> mBlockedTiles;
+
+var const config bool ShowNoEvacTiles;
 
 // Workaround to add the evac all ability to each xcom unit. Loop over all units on tactical UI load and
 // add the ability to each one that doesn't already have it.
@@ -25,19 +28,21 @@ event OnInit(UIScreen Screen)
 		EnsureAbilityOnUnit(XComHQ.Squad[i], AbilityTemplate);
 	}
 
-	// Register an event handler for the 'EvacZonePlaced' event so we can update the tile data to show the
-	// inaccessible tiles.
-	ThisObj = self;
-	`XEVENTMGR.RegisterForEvent(ThisObj, 'EvacZonePlaced', OnEvacZonePlaced, ELD_OnVisualizationBlockCompleted, 50);
-
-	// If we have a NoEvac state visualize it.
-	NoEvacTilesState = class'XComGameState_NoEvacTiles'.static.LookupNoEvacTilesState();
-	if (NoEvacTilesState != none)
+	if (ShowNoEvacTiles)
 	{
-		NoEvacTilesState.FindOrCreateVisualizer();
-		NoEvacTilesState.SyncVisualizer();
-	}
+		// Register an event handler for the 'EvacZonePlaced' event so we can update the tile data to show the
+		// inaccessible tiles.
+		ThisObj = self;
+		`XEVENTMGR.RegisterForEvent(ThisObj, 'EvacZonePlaced', OnEvacZonePlaced, ELD_OnVisualizationBlockCompleted, 50);
 
+		// If we have a NoEvac state visualize it.
+		NoEvacTilesState = class'XComGameState_NoEvacTiles'.static.LookupNoEvacTilesState();
+		if (NoEvacTilesState != none)
+		{
+			NoEvacTilesState.FindOrCreateVisualizer();
+			NoEvacTilesState.SyncVisualizer();
+		}
+	}
 }
 
 // Ensure the unit represented by the given reference has the EvacAll ability

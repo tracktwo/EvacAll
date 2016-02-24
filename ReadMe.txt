@@ -33,12 +33,13 @@ For manual installation, unzip the installation package into your XCOM2\XComGame
 
 == Configuration ==
 
-Animation style of the evac can be configured through the XComEvacAll.ini file found
+This mod can be configured through the XComEvacAll.ini file found
 in the Config folder in the mod package. When installing through the Steam Workshop,
 it can be found in the steamapps\workshop\content\268500\618669868\Config folder.
 
-This file contains one configurable option: EvacMode, which can have one of three
-values:
+This file contains two configurable options: 
+
+EvacMode, which can have one of three values:
 
 eAllAtOnce (Default) - All units in the zone will evac simultaneously, each performing
 their rope out animation at slightly staggered times.
@@ -47,6 +48,10 @@ eOneByOne - Units will evac one by one, with each soldier waiting for the previo
 soldier to complete their animation.
 
 eNoAnimations - All units will instantly evac and disappear without playing any animations.
+
+ShowNoEvacTiles: Tile overlays can be enabled (true) or disabled (false) for tiles that are
+in the evac zone but which will not be eligible tiles to evac from. The base game does not
+allow evac from tiles that have overhanging geometry, but it doesn't represent this in the UI.
 
 == Contributors ==
 
