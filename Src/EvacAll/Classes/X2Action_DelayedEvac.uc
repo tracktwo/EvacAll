@@ -6,14 +6,15 @@ var private CustomAnimParams DelayedAnimParams;
 simulated state Executing
 {
 Begin:
-		RequestRopeArchetype();
-		Sleep(0.2 * `SYNC_RAND(10));
-		SpawnAndPlayRopeAnim();
+        RequestRopeArchetype();
+        Sleep(0.2 * `SYNC_RAND(10));
+        SpawnAndPlayRopeAnim();
 
-		DelayedAnimParams.AnimName = 'HL_EvacStart';
-		FinishAnim(UnitPawn.GetAnimTreeController().PlayFullBodyDynamicAnim(DelayedAnimParams));
+        DelayedAnimParams.AnimName = 'HL_EvacStart';
+        DelayedAnimParams.PlayRate = GetNonCriticalAnimationSpeed();
+        FinishAnim(UnitPawn.GetAnimTreeController().PlayFullBodyDynamicAnim(DelayedAnimParams));
 
-		CompleteAction();
+        CompleteAction();
 }
 
 defaultproperties
