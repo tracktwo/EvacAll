@@ -24,6 +24,12 @@
     <Content Include="Config\XComEvacAll.ini">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Config\XComMissions.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Content\Obj_NeutralizeTarget_EvacAll.umap">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Content\UI_EvacAll.upk">
       <SubType>Content</SubType>
     </Content>
