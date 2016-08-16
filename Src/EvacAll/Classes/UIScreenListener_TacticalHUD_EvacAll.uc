@@ -22,7 +22,18 @@ event OnInit(UIScreen Screen)
 	AbilityTemplateManager = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
 	AbilityTemplate = AbilityTemplateManager.FindAbilityTemplate('EvacAll');
 
-	// Add the ability to each squad member that doesn't already have it.
+	// ** Legacy code: Add the ability to each squad member that doesn't already have it. **
+    //
+    // Note: This was how EvacAll was originally implemented, back before we had the new helpful DLCInfo
+    // hooks. I now place the EvacAll ability on each appropriate character template after the templates
+    // are loaded. This code remains to support old campaigns where there are characters that already exist
+    // but that do not yet have the ability. This method isn't preferred because it only works on tactical
+    // HUD init, which means that mods that enable Restart Mission will not re-add the ability to soldiers
+    // after a mission restart as the event doesn't fire on the 2nd or subsequent attempt but all the soldiers
+    // are reset to the start state.
+    //
+    // I can't reliably use the OnLoadedSaveGame hook either, because this mod may already be registered in
+    // those campaigns and won't be fired again. So this code will likely need to be here forever.
 	for (i = 0; i < XComHQ.Squad.Length; ++i) 
 	{
 		EnsureAbilityOnUnit(XComHQ.Squad[i], AbilityTemplate);
@@ -67,6 +78,8 @@ function EnsureAbilityOnUnit(StateObjectReference UnitStateRef, X2AbilityTemplat
 			return;
 		}
 	}
+
+    `Log(" *** Unit " $ UnitState.GetFullname() $ " does not have evac all ability. Adding");
 
 	// Construct a new unit game state for this unit, adding an instance of the ability
 	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Add EvacAll Ability");

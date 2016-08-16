@@ -8,7 +8,10 @@
 //  Copyright (c) 2016 Firaxis Games, Inc. All rights reserved.
 //---------------------------------------------------------------------------------------
 
-class X2DownloadableContentInfo_EvacAll extends X2DownloadableContentInfo;
+class X2DownloadableContentInfo_EvacAll extends X2DownloadableContentInfo config(EvacAll);
+
+// Configurable list of character template names to give the EvacAll ability.
+var config array<Name> CharacterTemplates;
 
 /// <summary>
 /// This method is run if the player loads a saved game that was created prior to this DLC / Mod being installed, and allows the 
@@ -23,3 +26,22 @@ static event OnLoadedSavedGame()
 /// </summary>
 static event InstallNewCampaign(XComGameState StartState)
 {}
+
+// Add the evac all ability to all appropriate character templates.
+static event OnPostTemplatesCreated()
+{
+    local X2CharacterTemplateManager CharacterTemplateManager;
+    local X2CharacterTemplate CharTemplate;
+    local Name TemplateName;
+
+    CharacterTemplateManager = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+
+    foreach default.CharacterTemplates(TemplateName)
+    {
+        CharTemplate = CharacterTemplateManager.FindCharacterTemplate(TemplateName);
+        if (CharTemplate != none)
+            CharTemplate.Abilities.AddItem('EvacAll');
+        else
+            `Log("Failed to locate character template " $ TemplateName);
+    }
+}
