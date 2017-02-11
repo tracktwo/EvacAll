@@ -32,16 +32,38 @@ static event OnPostTemplatesCreated()
 {
     local X2CharacterTemplateManager CharacterTemplateManager;
     local X2CharacterTemplate CharTemplate;
+    local array<X2DataTemplate> DataTemplates;
+    local X2DataTemplate Template, DiffTemplate;
     local Name TemplateName;
 
     CharacterTemplateManager = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
 
+    foreach CharacterTemplateManager.IterateTemplates(Template, None)
+    {
+        CharacterTemplateManager.FindDataTemplateAllDifficulties(Template.DataName, DataTemplates);
+        foreach DataTemplates(DiffTemplate)
+        {
+            CharTemplate = X2CharacterTemplate(DiffTemplate);
+            if (CharTemplate.Abilities.Find('Evac') >= 0)
+            {
+                `Log("Adding EvacAll ability to template " $ CharTemplate.DataName);
+                CharTemplate.Abilities.AddItem('EvacAll');
+            }
+        }
+    }
+
+    // Also check the config list for additional templates (in case someone really wants to give them
+    // evac all without evac?
     foreach default.CharacterTemplates(TemplateName)
     {
-        CharTemplate = CharacterTemplateManager.FindCharacterTemplate(TemplateName);
-        if (CharTemplate != none)
-            CharTemplate.Abilities.AddItem('EvacAll');
-        else
-            `Log("Failed to locate character template " $ TemplateName);
+        CharacterTemplateManager.FindDataTemplateAllDifficulties(TemplateName, DataTemplates);
+        foreach DataTemplates(DiffTemplate)
+        {
+            CharTemplate = X2CharacterTemplate(DiffTemplate);
+            if (CharTemplate != none && CharTemplate.Abilities.Find('EvacAll') < 0)
+                CharTemplate.Abilities.AddItem('EvacAll');
+            else
+                `Log("Failed to locate character template " $ TemplateName);
+        }
     }
 }

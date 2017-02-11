@@ -189,7 +189,6 @@ simulated function DoOldEvacAll(XComGameStateContext Context)
 
 		if (AbilityState.CanActivateAbility(GameStateUnit) == 'AA_Success')
 		{
-
 			if(TacticalRules.GetGameRulesCache_Unit(GameStateUnit.GetReference(), UnitCache))
 			{
 				for( i = 0; i < UnitCache.AvailableActions.Length; ++i)
