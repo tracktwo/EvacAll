@@ -18,12 +18,10 @@ function int GetLW2Version()
 	StrategyTemplate = StratMgr.FindStrategyElementTemplate('LWXComGameVersion');
 	if (StrategyTemplate == none)
 	{
-		`Log("LW2 Not installed");
 		return 0;
 	}
 
 	LWVersionTemplate = LWXComGameVersionTemplate(StrategyTemplate);
-	`Log("LW2 Version " $ LWVersioNTemplate.GetVersionNumber());
 	return LWVersionTemplate.GetVersionNumber();
 }
 
